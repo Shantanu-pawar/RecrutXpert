@@ -44,7 +44,6 @@ public class ResumeService {
 
         long sizeInBytes = file.getSize(); // Getting size of the uploaded file in bytes
 
-        System.out.println(sizeInBytes);
 
         long sizeInKb=sizeInBytes/1024;
         long sizeInMb = sizeInBytes /2048; // Converting bytes to megabyte

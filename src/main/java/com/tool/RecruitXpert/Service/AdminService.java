@@ -10,6 +10,7 @@ import com.tool.RecruitXpert.DTO.RecruiterDto.responseDto.JobTitleList;
 import com.tool.RecruitXpert.Entities.Admin;
 import com.tool.RecruitXpert.Entities.JobsApplication;
 import com.tool.RecruitXpert.Entities.Recruiter;
+import com.tool.RecruitXpert.Entities.ResumeEntity;
 import com.tool.RecruitXpert.Exceptions.AdminNotFoundException;
 import com.tool.RecruitXpert.Repository.AdminRepository;
 import com.tool.RecruitXpert.Repository.JobRepository;
@@ -19,8 +20,11 @@ import com.tool.RecruitXpert.Security.UserInfo;
 import com.tool.RecruitXpert.Security.UserInfoController;
 import com.tool.RecruitXpert.Security.UserInfoDto;
 import com.tool.RecruitXpert.Security.UserInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +38,7 @@ import java.util.Optional;
 
 
 @Service
+@Slf4j
 public class AdminService {
 
     @Autowired
@@ -202,6 +207,36 @@ public class AdminService {
         // set this pic after we're uploading img
 //        profile.setAdminImg(admin.getAdminImg());
         return profile;
+    }
+
+    public String uploadImage(MultipartFile imageFile) throws Exception{
+
+        long sizeInBytes = imageFile.getSize(); // Getting size of the uploaded file in bytes
+
+        Admin admin = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        long sizeInKb=sizeInBytes/1024; // converting size into kb
+//        long sizeInMb = sizeInBytes /2048; // Converting bytes to megabyte
+        long lowBound=30; //lower bound in kb
+        long upperBound=1000; // upper bound in mb
+
+        if(sizeInKb<30) {
+            log.error("image size is less than  50kb log");
+            throw new Exception("uploaded Resume doc size"+ sizeInKb +"KB is lessthan required size"+ lowBound);
+        }
+
+
+        if(sizeInKb>upperBound) {
+            log.error("image size is greater than  1mb log");
+            throw new Exception("uploaded image size"+1+"MB is greaterthan required size"+upperBound);
+        }
+
+       String s[]=imageFile.getContentType().split(".");
+        if(s.length>=1&&s[1].equals("pdf")) throw new Exception("file format does't support");
+
+        admin.setAdminImg(imageFile.getBytes());
+        return "image uploaded successfully";
+
     }
 }
 

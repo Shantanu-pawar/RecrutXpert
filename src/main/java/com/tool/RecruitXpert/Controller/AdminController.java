@@ -19,13 +19,17 @@ import com.tool.RecruitXpert.Service.RecruiterService;
 import com.tool.RecruitXpert.Security.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 import java.util.List;
+
+import static com.tool.RecruitXpert.ResumeUtility.ResumeUtilities.getMediaType;
 
 @RestController
 @RequestMapping("/admin")
@@ -86,7 +90,22 @@ public class AdminController {
     }
 
 
+    //putMapping
+
+    @PutMapping("/uploadImage")
+    public ResponseEntity<?>  uploadImage(@RequestParam("file") MultipartFile imageFile){
+            try{
+                String message=adminService.uploadImage(imageFile);
+                return ResponseEntity.status(HttpStatus.OK).body(message);
+            }
+            catch (Exception e){
+               return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            }
+    }
+
+
 //    admin/dashboard // email
+
 
 
     // whenever we hit this api so we get all the details of admin that we wanted to update
