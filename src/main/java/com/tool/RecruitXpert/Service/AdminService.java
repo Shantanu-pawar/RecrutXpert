@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.Option;
+import java.awt.*;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -209,34 +210,37 @@ public class AdminService {
         return profile;
     }
 
-    public String uploadImage(MultipartFile imageFile) throws Exception{
+    public String uploadImage(ImageUploadAdmin dto) throws Exception{
 
+        MultipartFile imageFile = dto.getImageFile();
         long sizeInBytes = imageFile.getSize(); // Getting size of the uploaded file in bytes
 
-        Admin admin = (Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Admin admin = adminRepository.findById(dto.getAdminId()).get();
 
         long sizeInKb=sizeInBytes/1024; // converting size into kb
-//        long sizeInMb = sizeInBytes /2048; // Converting bytes to megabyte
         long lowBound=30; //lower bound in kb
         long upperBound=1000; // upper bound in mb
 
         if(sizeInKb<30) {
             log.error("image size is less than  50kb log");
-            throw new Exception("uploaded Resume doc size"+ sizeInKb +"KB is lessthan required size"+ lowBound);
-        }
-
-
-        if(sizeInKb>upperBound) {
+            throw new Exception("uploaded Resume doc size"+ sizeInKb +"KB is less than required size"+ lowBound);
+        } if(sizeInKb>upperBound) {
             log.error("image size is greater than  1mb log");
-            throw new Exception("uploaded image size"+1+"MB is greaterthan required size"+upperBound);
+            throw new Exception("uploaded image size"+1+"MB is greater than required size"+upperBound);
         }
 
        String s[]=imageFile.getContentType().split(".");
-        if(s.length>=1&&s[1].equals("pdf")) throw new Exception("file format does't support");
+        if(s.length>=1&&s[1].equals("pdf")) throw new Exception("file format doesn't support");
 
         admin.setAdminImg(imageFile.getBytes());
+        adminRepository.save(admin);
         return "image uploaded successfully";
 
+    }
+
+    public byte[] getImg(long adminId) {
+        Optional<Admin> op = adminRepository.findById(adminId);
+        return op.get().getAdminImg();
     }
 }
 

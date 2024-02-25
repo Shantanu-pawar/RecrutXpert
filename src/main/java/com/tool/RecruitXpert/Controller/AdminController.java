@@ -35,10 +35,8 @@ import static com.tool.RecruitXpert.ResumeUtility.ResumeUtilities.getMediaType;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private UserInfoService service;
-    @Autowired
-    private JwtService jwtService;
+    @Autowired private UserInfoService service;
+    @Autowired private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -89,23 +87,25 @@ public class AdminController {
         return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
     }
 
+    // here' i'll get the adminId from your UI side.
+    @PostMapping("/uploadImage")
+    public ResponseEntity<?> uploadImage(@RequestBody ImageUploadAdmin dto) {
+        try {
+            String message = adminService.uploadImage(dto);
+            return ResponseEntity.status(HttpStatus.OK).body(message);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
-    //putMapping
-
-    @PutMapping("/uploadImage")
-    public ResponseEntity<?>  uploadImage(@RequestParam("file") MultipartFile imageFile){
-            try{
-                String message=adminService.uploadImage(imageFile);
-                return ResponseEntity.status(HttpStatus.OK).body(message);
-            }
-            catch (Exception e){
-               return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-            }
+    @GetMapping("/getAdminImg/{adminId}")
+    public ResponseEntity<?> getImg(@PathVariable long adminId){
+        byte[] file = adminService.getImg(adminId);
+        return new ResponseEntity<>(file, HttpStatus.OK);
     }
 
 
 //    admin/dashboard // email
-
 
 
     // whenever we hit this api so we get all the details of admin that we wanted to update
