@@ -14,7 +14,6 @@ public class AddRecruiterDto {
 
     String lastname;
 
-    @Column(unique = true, nullable = false)
     String email;
 
     String password;

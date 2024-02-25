@@ -17,11 +17,10 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public String sendEmail(Email email)
-    {
+    public String sendEmail(EmailDto email){
         try{
             SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom("Elfonze " + sender + ">");
+            mailMessage.setFrom(sender);
             mailMessage.setTo(email.getRecipient());
             mailMessage.setSubject(email.getSubject());
             mailMessage.setText(email.getMessage());

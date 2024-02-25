@@ -10,7 +10,7 @@ public class EmailSendController {
     @Autowired EmailService emailService;
 
     @PostMapping("/sendMail")
-    public String sendMail(@RequestBody Email email){
+    public String sendMail(@RequestBody EmailDto email){
         return emailService.sendEmail(email);
     }
 

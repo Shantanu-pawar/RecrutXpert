@@ -12,6 +12,8 @@ import com.tool.RecruitXpert.Enums.EntityRoles;
 import com.tool.RecruitXpert.Enums.Status;
 import com.tool.RecruitXpert.Repository.JobRepository;
 import com.tool.RecruitXpert.Repository.RecruiterRepository;
+import com.tool.RecruitXpert.Security.EmailSender.EmailDto;
+import com.tool.RecruitXpert.Security.EmailSender.EmailService;
 import com.tool.RecruitXpert.Security.UserInfoDto;
 import com.tool.RecruitXpert.Security.UserInfoService;
 import org.springframework.mail.SimpleMailMessage;
@@ -128,25 +130,27 @@ public class RecruiterService {
         return  recruiterHomepageResponseDTO;
     }
 
+    @Autowired private EmailService emailService;
     // recruiter can approve or disapprove the user status
     public String updateStatus(UpdateRecruiterStatus status) {
         Optional<Recruiter> op = repository.findById(status.getId());
         if(!op.isPresent()) throw new RuntimeException("please update correct recruiter");
 
+
         Recruiter recruiter = op.get();
         recruiter.setRecruiterStatus(status.getRecruiterStatus());
         repository.save(recruiter);
-        return "Status updated successful";
 
-    // adminController me email integration - status return karna direct email me
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//        String msg = "Hi Welcome to Recruit Expert portal! "+"\n get placed with our recruiters.";
-//        String body1 = msg + "\n Admin updated you're profiles status to : " + status.getRecruiterStatus();
-//        mailMessage.setSubject("Recruit Xpert");
-//        mailMessage.setFrom("shivasaiparsha@gmail.com");
-//        mailMessage.setTo(recruiter.getEmail());
-//        mailMessage.setText(body1);
-//        mailSender.send(mailMessage);
+        EmailDto dto = new EmailDto();
+        dto.setRecipient("shantanupawar292@gmail.com");
+
+//        dto.setRecipient(recruiter.getEmail());
+        dto.setSubject("Congratulations! " + recruiter.getFirstname() + " :: Message from RecruitXpert.");
+        dto.setMessage("Dear recruiter \n " +
+                "you're status just updated successfully by admin \n " +
+                "you're new status is : " + status.getRecruiterStatus());
+        emailService.sendEmail(dto);
+        return "Status updated successful";
     }
 
     // getting the list who is approved
