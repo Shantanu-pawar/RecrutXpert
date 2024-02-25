@@ -17,9 +17,4 @@ public class UpdateAdminDTO {
     String expectedCTC;
     String expectedJobRole;
     String location;
-
-    String website;
-
-    String companyName;
-
 }

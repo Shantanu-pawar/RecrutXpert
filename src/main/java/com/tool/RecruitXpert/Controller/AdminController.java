@@ -89,20 +89,24 @@ public class AdminController {
         return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
     }
 
+
     //putMapping
 
     @PutMapping("/uploadImage")
-    public ResponseEntity<?>  uploadImage(@RequestParam("file") MultipartFile imageFile)
-    {
+    public ResponseEntity<?>  uploadImage(@RequestParam("file") MultipartFile imageFile){
             try{
                 String message=adminService.uploadImage(imageFile);
                 return ResponseEntity.status(HttpStatus.OK).body(message);
             }
-            catch (Exception e)
-            {
+            catch (Exception e){
                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }
     }
+
+
+//    admin/dashboard // email
+
+
 
     // whenever we hit this api so we get all the details of admin that we wanted to update
     @GetMapping("my-profile/{adminId}")
