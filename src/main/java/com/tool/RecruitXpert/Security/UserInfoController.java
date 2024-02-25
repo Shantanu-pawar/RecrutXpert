@@ -52,6 +52,7 @@ public class UserInfoController {
 
     @PostMapping("/login")
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) throws Exception {
+        // payload 2 varaibles
 
         UserInfo user = repository.findByEmail(authRequest.getEmail()).get();
 

@@ -85,6 +85,10 @@ public class AdminController {
         return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
     }
 
+
+//    admin/dashboard // email
+
+
     // whenever we hit this api so we get all the details of admin that we wanted to update
     @GetMapping("my-profile/{adminId}")
     public ResponseEntity<?> getAdminDetails(@PathVariable Long adminId) {
