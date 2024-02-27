@@ -66,7 +66,7 @@ public class UserInfoController {
         if (authenticate(authRequest)) {
             user.setPasswordCount(0);
             user.setAccountBlock(false);
-            repository.save(user);
+            repository.save(user); //adsf
             return new ResponseEntity<>(jwtService.generateToken(authRequest.getEmail()), HttpStatus.OK);
         }
 
