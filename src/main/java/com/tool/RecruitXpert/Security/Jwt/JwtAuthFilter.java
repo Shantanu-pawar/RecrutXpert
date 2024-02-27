@@ -1,6 +1,8 @@
 package com.tool.RecruitXpert.Security.Jwt;
 
 
+import com.tool.RecruitXpert.Repository.UserInfoRepository;
+import com.tool.RecruitXpert.Security.UserInfo;
 import com.tool.RecruitXpert.Security.UserInfoService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,8 +30,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
     private UserInfoService userDetailsService;
 
+    @Autowired private UserInfoRepository repository;
+    @Autowired private BCryptPasswordEncoder encoder;
+
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
