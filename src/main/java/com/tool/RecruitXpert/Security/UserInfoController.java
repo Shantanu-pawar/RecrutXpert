@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -72,8 +70,8 @@ public class UserInfoController {
             return new ResponseEntity<>(jwtService.generateToken(authRequest.getEmail()), HttpStatus.OK);
         }
 
-        if (user.isAccountBlock()) {
-            String res =  "Oops! you're account is blocked! reach-out to Admin";
+            if (user.isAccountBlock()) {
+            String res =  "Oops! you're account is blocked! reach-out to Admin or reset you're password";
             return new ResponseEntity<>(res, HttpStatus.OK);
         }
 
@@ -92,7 +90,25 @@ public class UserInfoController {
         }
     }
 
+    // unblock the status of that user or recruiter from admin
+    @PutMapping("/account-unblocked-by-admin")
+    public ResponseEntity<?> unblock(@RequestParam String email){
+        String response = service.unblock(email);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
+
+    // access this API from user.
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDto reset){
+        String response = service.resetPassword(reset);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+
+
+    // testing purpose
     @GetMapping("/welcome")
     public String welcome() {
         return "Welcome this endpoint is not secure";

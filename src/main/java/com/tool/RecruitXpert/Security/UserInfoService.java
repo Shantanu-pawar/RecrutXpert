@@ -40,4 +40,26 @@ public class UserInfoService implements UserDetailsService {
         return "User Added Successfully";
     }
 
+    public String resetPassword(ResetPasswordDto reset) {
+        Optional<UserInfo> op = repository.findByEmail(reset.getEmail());
+        if(!op.isPresent()) return "provide correct email!";
+
+        if(op.get().isAccountBlock())
+            return "you're account is blocked and under cool down time-limit so wait! for it.";
+
+        UserInfo user = op.get();
+        user.setPassword(encoder.encode(reset.getPassword()));
+        repository.save(user);
+        return "password reset's successfully";
+    }
+
+    public String unblock(String email) {
+        Optional<UserInfo> op = repository.findByEmail(email);
+        if(!op.isPresent()) return "provide correct email!";
+
+        UserInfo user = op.get();
+        user.setAccountBlock(false);
+        repository.save(user);
+        return "Account unblocked successfully";
+    }
 }
