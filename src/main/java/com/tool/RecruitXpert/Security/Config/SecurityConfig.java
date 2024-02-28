@@ -40,15 +40,16 @@ public class SecurityConfig  {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers( "/auth/addNewUser",
-                        "/sendMail",
+                .requestMatchers( "/auth/addNewUser", "/auth/welcome",
+                        "/sendMail", "/auth/reset", "/auth/account-unblocked-by-admin",
                         "/auth/login", "/admin/**", "/user/**",
                         "/recruiter/**", "/swagger-ui/**", "/api-docs/**",
                         "/v3/api-docs/swagger-config").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/auth/user/**").authenticated()
+                .authorizeHttpRequests().requestMatchers("/auth/user/**").hasAuthority("USER")
+//                .authenticated().and()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/auth/admin/**").authenticated()
+                .authorizeHttpRequests().requestMatchers("/auth/admin/**").hasAuthority("ADMIN")
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

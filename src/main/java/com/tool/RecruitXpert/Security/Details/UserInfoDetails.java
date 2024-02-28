@@ -26,8 +26,11 @@ public class UserInfoDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority simpleAuth = new SimpleGrantedAuthority("USER");
         return authorities;
     }
+
+
 
     @Override
     public String getPassword() {

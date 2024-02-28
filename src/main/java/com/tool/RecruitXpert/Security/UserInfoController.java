@@ -123,7 +123,7 @@ public class UserInfoController {
     }
 
     @GetMapping("/admin/adminProfile")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String adminProfile() {
         return "Welcome to Admin Profile";
     }

@@ -2,6 +2,8 @@ package com.tool.RecruitXpert.Security;
 
 import com.tool.RecruitXpert.Repository.UserInfoRepository;
 import com.tool.RecruitXpert.Security.Details.UserInfoDetails;
+import com.tool.RecruitXpert.Security.EmailSender.EmailDto;
+import com.tool.RecruitXpert.Security.EmailSender.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +17,7 @@ public class UserInfoService implements UserDetailsService {
 
     @Autowired
     private UserInfoRepository repository;
-
+    @Autowired private EmailService emailService;
     @Autowired
     private PasswordEncoder encoder;
 
@@ -50,6 +52,15 @@ public class UserInfoService implements UserDetailsService {
         UserInfo user = op.get();
         user.setPassword(encoder.encode(reset.getPassword()));
         repository.save(user);
+
+        EmailDto dto = new EmailDto();
+//        dto.setRecipient(recruiter.getEmail());
+        dto.setRecipient("shantanup2100@gmail.com");
+        dto.setSubject("hey, here's you're password reset link! Message from RecruitXpert.");
+        dto.setMessage("Dear User \n " +
+                "since this email is private so don't forward it to anyone." );
+        emailService.sendEmail(dto);
+
         return "password reset's successfully";
     }
 
@@ -61,6 +72,17 @@ public class UserInfoService implements UserDetailsService {
         user.setAccountBlock(false);
         user.setPasswordCount(0);
         repository.save(user);
+
+        EmailDto dto = new EmailDto();
+//        dto.setRecipient(recruiter.getEmail());
+        dto.setRecipient("shantanup2100@gmail.com");
+        dto.setSubject("Hey! you're Account status was reset by admin! Message from RecruitXpert.");
+        dto.setMessage("Dear User \n " +
+                "you're Block account status was just updated successfully by admin \n " +
+                "Now you can easily login with you're previous credentials");
+        emailService.sendEmail(dto);
+
         return "Account unblocked successfully";
     }
 }
+
