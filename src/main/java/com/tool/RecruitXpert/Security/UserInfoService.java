@@ -53,12 +53,13 @@ public class UserInfoService implements UserDetailsService {
         return "password reset's successfully";
     }
 
-    public String unblock(String email) {
-        Optional<UserInfo> op = repository.findByEmail(email);
+    public String unblock(ResetPasswordDto reset) {
+        Optional<UserInfo> op = repository.findByEmail(reset.getEmail());
         if(!op.isPresent()) return "provide correct email!";
 
         UserInfo user = op.get();
         user.setAccountBlock(false);
+        user.setPasswordCount(0);
         repository.save(user);
         return "Account unblocked successfully";
     }

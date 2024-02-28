@@ -158,8 +158,8 @@ public class AdminService {
 
     public List<JobTitleList> getJobList() {
 
-        List<JobTitleList> list = new ArrayList<>();
         List<JobsApplication> applicationList = jobRepository.findAll();
+        List<JobTitleList> list = new ArrayList<>();
 
         for (JobsApplication jobsApplication : applicationList) {
             JobTitleList jobTitleList = new JobTitleList();

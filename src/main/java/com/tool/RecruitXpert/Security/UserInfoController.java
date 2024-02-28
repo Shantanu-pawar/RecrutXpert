@@ -1,6 +1,5 @@
 package com.tool.RecruitXpert.Security;
 
-import com.tool.RecruitXpert.Enums.Status;
 import com.tool.RecruitXpert.Repository.UserInfoRepository;
 import com.tool.RecruitXpert.Security.Config.AuthRequest;
 import com.tool.RecruitXpert.Security.Jwt.JwtService;
@@ -11,12 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -27,7 +23,6 @@ public class UserInfoController {
     BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private JwtService jwtService;
-
     @Autowired
     private UserInfoRepository repository;
     @Autowired
@@ -50,7 +45,6 @@ public class UserInfoController {
         return ResponseEntity.ok("successfully Logout.");
     }
 
-
     // helper function
     public boolean authenticate(AuthRequest authRequest) {
         // this userDetails load from database
@@ -63,10 +57,14 @@ public class UserInfoController {
     public ResponseEntity<?> authenticateAndGetToken(@RequestBody AuthRequest authRequest) throws Exception, RuntimeException {
 
         UserInfo user = repository.findByEmail(authRequest.getEmail()).get();
-        if (authenticate(authRequest)) {
-            user.setPasswordCount(0);
-            user.setAccountBlock(false);
-            repository.save(user); //adsf
+
+        // case : only admin can unblock the account status once account block
+
+//        if (authenticate(authRequest)) {
+//            user.setPasswordCount(0);
+//            user.setAccountBlock(false);
+//            repository.save(user);
+        if (authenticate(authRequest) && !user.isAccountBlock()) {
             return new ResponseEntity<>(jwtService.generateToken(authRequest.getEmail()), HttpStatus.OK);
         }
 
@@ -91,21 +89,18 @@ public class UserInfoController {
     }
 
     // unblock the status of that user or recruiter from admin
-    @PutMapping("/account-unblocked-by-admin")
-    public ResponseEntity<?> unblock(@RequestParam String email){
-        String response = service.unblock(email);
+    @PostMapping("/account-unblocked-by-admin")
+    public ResponseEntity<?> unblock(@RequestBody ResetPasswordDto reset){
+        String response = service.unblock(reset);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
     // access this API from user.
-    @PutMapping("/reset-password")
+    @PostMapping("/reset")
     public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDto reset){
         String response = service.resetPassword(reset);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-
 
 
     // testing purpose
@@ -115,9 +110,16 @@ public class UserInfoController {
     }
 
     @GetMapping("/user/userProfile")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('USER')")
     public String userProfile() {
         return "Welcome to User Profile";
+    }
+
+
+    @GetMapping("/user/check")
+    @PreAuthorize("hasAuthority('USER')")
+    public String check() {
+        return "this is checking purpose";
     }
 
     @GetMapping("/admin/adminProfile")
