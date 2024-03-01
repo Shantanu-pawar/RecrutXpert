@@ -3,33 +3,25 @@ package com.tool.RecruitXpert.Controller;
 import com.tool.RecruitXpert.DTO.AdminDTO.*;
 import com.tool.RecruitXpert.DTO.AdminDTO.ResponseDto.GetAdminUpdateProfile;
 import com.tool.RecruitXpert.DTO.JobDTO.JobCreationDTO;
-import com.tool.RecruitXpert.DTO.JobDTO.UpdateJobDto;
-import com.tool.RecruitXpert.DTO.LogIn.LogIn;
 import com.tool.RecruitXpert.DTO.RecruiterDto.JobAssignDto;
 import com.tool.RecruitXpert.DTO.RecruiterDto.responseDto.AssignRecruiterResponse;
 import com.tool.RecruitXpert.DTO.RecruiterDto.responseDto.JobTitleList;
 import com.tool.RecruitXpert.Entities.JobsApplication;
 import com.tool.RecruitXpert.Entities.Recruiter;
 import com.tool.RecruitXpert.Security.Jwt.JwtService;
-import com.tool.RecruitXpert.Security.UserInfo;
-import com.tool.RecruitXpert.Security.UserInfoController;
 import com.tool.RecruitXpert.Service.AdminService;
 import com.tool.RecruitXpert.Service.JobService;
 import com.tool.RecruitXpert.Service.RecruiterService;
-import com.tool.RecruitXpert.Security.UserInfoService;
+import com.tool.RecruitXpert.Service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 import java.util.List;
-
-import static com.tool.RecruitXpert.ResumeUtility.ResumeUtilities.getMediaType;
 
 @RestController
 @RequestMapping("/admin")
@@ -37,17 +29,11 @@ public class AdminController {
 
     @Autowired private UserInfoService service;
     @Autowired private JwtService jwtService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private AdminService adminService;
-    @Autowired
-    private RecruiterService recruiterService;
-    @Autowired
-    private JobService jobService;
-
-    @Autowired
-    private UserInfoController userInfoController;
+    @Autowired private AuthenticationManager authenticationManager;
+    @Autowired private AdminService adminService;
+    @Autowired private RecruiterService recruiterService;
+    @Autowired private JobService jobService;
+    @Autowired private UserInfoController userInfoController;
 
 
     // for login we have to call the userInfo login api so login is sorted.
@@ -56,6 +42,67 @@ public class AdminController {
         try {
             String response = adminService.adminSignUp(signUpDto);
             return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //    return the list whoes recruiter status == null;
+    @GetMapping("/recruiter/listOfRecruitersByStatus")
+    public ResponseEntity<?> returnReturnStatus() {
+        try {
+            List<Recruiter> list = recruiterService.getListForNullStatus();
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // _________________admin profile section________________________
+
+    // whenever we hit this api so we get all the details of admin that we wanted to update
+    @GetMapping("my-profile/{adminId}")
+    public ResponseEntity<?> getAdminDetails(@PathVariable Long adminId) {
+        GetAdminUpdateProfile message = adminService.getAdminDetails(adminId);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    // here' i'll get the adminId from your UI side.
+    @PostMapping("/uploadImage")
+    public ResponseEntity<?> uploadImage(@RequestBody ImageUploadAdmin dto) {
+        try {
+            String message = adminService.uploadImage(dto);
+            return ResponseEntity.status(HttpStatus.OK).body(message);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/getAdminImg/{adminId}")
+    public ResponseEntity<?> getImg(@PathVariable long adminId){
+        try {
+            byte[] file = adminService.getImg(adminId);
+            return new ResponseEntity<>(file, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // update admin profile
+    @PutMapping("/update-admin")
+    public ResponseEntity<?> updateAdmin(@RequestBody UpdateAdminDTO adminRequest) throws IOException {
+        String message = adminService.updateAdmin(adminRequest);
+        return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
+    }
+
+
+
+
+    @PutMapping("/update-status")
+    public ResponseEntity<?> returnReturnStatus(@RequestBody UpdateRecruiterStatus update) {
+        try {
+            String response = recruiterService.updateStatus(update);
+            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -75,64 +122,6 @@ public class AdminController {
         try {
             String response = adminService.jobAssigned(status);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    // update admin profile
-    @PutMapping("/update-admin")
-    public ResponseEntity<?> updateAdmin(@RequestBody UpdateAdminDTO adminRequest) throws IOException {
-        String message = adminService.updateAdmin(adminRequest);
-        return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
-    }
-
-    // here' i'll get the adminId from your UI side.
-    @PostMapping("/uploadImage")
-    public ResponseEntity<?> uploadImage(@RequestBody ImageUploadAdmin dto) {
-        try {
-            String message = adminService.uploadImage(dto);
-            return ResponseEntity.status(HttpStatus.OK).body(message);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/getAdminImg/{adminId}")
-    public ResponseEntity<?> getImg(@PathVariable long adminId){
-        byte[] file = adminService.getImg(adminId);
-        return new ResponseEntity<>(file, HttpStatus.OK);
-    }
-
-
-//    admin/dashboard // email
-
-
-    // whenever we hit this api so we get all the details of admin that we wanted to update
-    @GetMapping("my-profile/{adminId}")
-    public ResponseEntity<?> getAdminDetails(@PathVariable Long adminId) {
-        GetAdminUpdateProfile message = adminService.getAdminDetails(adminId);
-        return new ResponseEntity<>(message, HttpStatus.OK);
-    }
-
-
-    //    show this list to admin home page whos status is not active.
-    //    return the list whos recruiter status == null;
-    @GetMapping("/recruiter/listOfRecruitersByStatus")
-    public ResponseEntity<?> returnReturnStatus() {
-        try {
-            List<Recruiter> list = recruiterService.getListForNullStatus();
-            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PutMapping("/update-status")
-    public ResponseEntity<?> returnReturnStatus(@RequestBody UpdateRecruiterStatus update) {
-        try {
-            String response = recruiterService.updateStatus(update);
-            return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
