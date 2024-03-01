@@ -2,8 +2,7 @@ package com.tool.RecruitXpert.Security.Jwt;
 
 
 import com.tool.RecruitXpert.Repository.UserInfoRepository;
-import com.tool.RecruitXpert.Security.UserInfo;
-import com.tool.RecruitXpert.Security.UserInfoService;
+import com.tool.RecruitXpert.Service.UserInfoService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;

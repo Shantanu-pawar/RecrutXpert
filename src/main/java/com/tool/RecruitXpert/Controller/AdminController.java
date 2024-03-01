@@ -37,22 +37,13 @@ public class AdminController {
 
 
     // for login we have to call the userInfo login api so login is sorted.
+
+    // after successful signup just send - notification
     @PostMapping("/sign-up")
     public ResponseEntity<?> adminSignUp(@RequestBody AdminSignUp signUpDto) {
         try {
             String response = adminService.adminSignUp(signUpDto);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    //    return the list whoes recruiter status == null;
-    @GetMapping("/recruiter/listOfRecruitersByStatus")
-    public ResponseEntity<?> returnReturnStatus() {
-        try {
-            List<Recruiter> list = recruiterService.getListForNullStatus();
-            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -95,8 +86,25 @@ public class AdminController {
         return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
     }
 
+    // delete admin by id
+    @DeleteMapping("/delete-admin/{id}")
+    public ResponseEntity<?> deleteAdmin(@PathVariable Long id) {
+        String message = adminService.deleteAdmin(id);
+        return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
+    }
 
+    // _________________ [my dashboard] admin getting Recruiter list section________________________
 
+    //    return the list whoes recruiter status == null;
+    @GetMapping("/recruiter/listOfRecruitersByStatus")
+    public ResponseEntity<?> returnReturnStatus() {
+        try {
+            List<Recruiter> list = recruiterService.getListForNullStatus();
+            return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PutMapping("/update-status")
     public ResponseEntity<?> returnReturnStatus(@RequestBody UpdateRecruiterStatus update) {
@@ -135,13 +143,6 @@ public class AdminController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-    }
-
-    // delete profile by id
-    @DeleteMapping("/delete-admin/{id}")
-    public ResponseEntity<?> deleteAdmin(@PathVariable Long id) {
-        String message = adminService.deleteAdmin(id);
-        return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
     }
 
 

@@ -1,8 +1,12 @@
-package com.tool.RecruitXpert.Security;
+package com.tool.RecruitXpert.Controller;
 
 import com.tool.RecruitXpert.Repository.UserInfoRepository;
 import com.tool.RecruitXpert.Security.Config.AuthRequest;
 import com.tool.RecruitXpert.Security.Jwt.JwtService;
+import com.tool.RecruitXpert.DTO.UserInfoDto.ResetPasswordDto;
+import com.tool.RecruitXpert.Entities.UserInfo;
+import com.tool.RecruitXpert.DTO.UserInfoDto.UserInfoDto;
+import com.tool.RecruitXpert.Service.UserInfoService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

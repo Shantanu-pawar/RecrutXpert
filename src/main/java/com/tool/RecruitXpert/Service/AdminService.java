@@ -3,34 +3,23 @@ package com.tool.RecruitXpert.Service;
 
 import com.tool.RecruitXpert.DTO.AdminDTO.*;
 import com.tool.RecruitXpert.DTO.AdminDTO.ResponseDto.GetAdminUpdateProfile;
-import com.tool.RecruitXpert.DTO.JobDTO.JobCreationDTO;
-import com.tool.RecruitXpert.DTO.JobDTO.UpdateJobDto;
 import com.tool.RecruitXpert.DTO.RecruiterDto.JobAssignDto;
 import com.tool.RecruitXpert.DTO.RecruiterDto.responseDto.JobTitleList;
 import com.tool.RecruitXpert.Entities.Admin;
 import com.tool.RecruitXpert.Entities.JobsApplication;
 import com.tool.RecruitXpert.Entities.Recruiter;
-import com.tool.RecruitXpert.Entities.ResumeEntity;
 import com.tool.RecruitXpert.Exceptions.AdminNotFoundException;
 import com.tool.RecruitXpert.Repository.AdminRepository;
 import com.tool.RecruitXpert.Repository.JobRepository;
 import com.tool.RecruitXpert.Repository.RecruiterRepository;
-import com.tool.RecruitXpert.Repository.UserInfoRepository;
-import com.tool.RecruitXpert.Security.UserInfo;
-import com.tool.RecruitXpert.Security.UserInfoController;
-import com.tool.RecruitXpert.Security.UserInfoDto;
-import com.tool.RecruitXpert.Security.UserInfoService;
+import com.tool.RecruitXpert.DTO.UserInfoDto.UserInfoDto;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.html.Option;
-import java.awt.*;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -204,9 +193,7 @@ public class AdminService {
         profile.setExpectedCTC(admin.getExpectedCTC());
         profile.setExpectedJobRole(admin.getExpectedCTC());
         profile.setLocation(admin.getLocation());
-
-        // set this pic after we're uploading img
-//        profile.setAdminImg(admin.getAdminImg());
+        profile.setAdminImg(admin.getAdminImg());
         return profile;
     }
 

@@ -1,4 +1,4 @@
-package com.tool.RecruitXpert.Security;
+package com.tool.RecruitXpert.DTO.UserInfoDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

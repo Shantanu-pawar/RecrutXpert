@@ -1,9 +1,12 @@
-package com.tool.RecruitXpert.Security;
+package com.tool.RecruitXpert.Service;
 
+import com.tool.RecruitXpert.Entities.UserInfo;
 import com.tool.RecruitXpert.Repository.UserInfoRepository;
 import com.tool.RecruitXpert.Security.Details.UserInfoDetails;
 import com.tool.RecruitXpert.Security.EmailSender.EmailDto;
 import com.tool.RecruitXpert.Security.EmailSender.EmailService;
+import com.tool.RecruitXpert.DTO.UserInfoDto.ResetPasswordDto;
+import com.tool.RecruitXpert.DTO.UserInfoDto.UserInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

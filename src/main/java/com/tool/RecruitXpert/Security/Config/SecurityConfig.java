@@ -1,7 +1,7 @@
 package com.tool.RecruitXpert.Security.Config;
 
 import com.tool.RecruitXpert.Security.Jwt.JwtAuthFilter;
-import com.tool.RecruitXpert.Security.UserInfoService;
+import com.tool.RecruitXpert.Service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +13,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 
 @SuppressWarnings("removal")
 @Configuration
@@ -26,10 +26,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableMethodSecurity
 public class SecurityConfig  {
 
-    @Autowired
-    private JwtAuthFilter authFilter;
+    @Autowired private JwtAuthFilter authFilter;
+    @Autowired private LogoutService logoutService;
 
-    // User Creation
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserInfoService();
@@ -38,7 +37,8 @@ public class SecurityConfig  {
     // Configuring HttpSecurity
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
+
+        http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers( "/auth/addNewUser", "/auth/welcome",
                         "/sendMail", "/auth/reset", "/auth/account-unblocked-by-admin",
@@ -56,7 +56,16 @@ public class SecurityConfig  {
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+
+                // logout impl
+                .logout()
+
+                // here we don't have to impl separate endpoint in controller
+                .logoutUrl("/auth/logout")
+                .logoutSuccessHandler((request, response, authentication)
+                        -> SecurityContextHolder.clearContext());
+
+                return http.build();
     }
 
     // Password Encoding

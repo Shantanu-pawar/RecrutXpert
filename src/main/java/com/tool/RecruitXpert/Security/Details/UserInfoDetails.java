@@ -1,6 +1,6 @@
 package com.tool.RecruitXpert.Security.Details;
 
-import com.tool.RecruitXpert.Security.UserInfo;
+import com.tool.RecruitXpert.Entities.UserInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

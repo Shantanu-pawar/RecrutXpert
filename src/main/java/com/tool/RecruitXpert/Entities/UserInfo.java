@@ -1,4 +1,4 @@
-package com.tool.RecruitXpert.Security;
+package com.tool.RecruitXpert.Entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
