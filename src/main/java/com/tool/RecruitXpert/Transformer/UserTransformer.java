@@ -24,6 +24,7 @@ public class UserTransformer {
                 .zipCode(userRequest.getZipCode())
                 .build();
     }
+
     public static UserResponse UserToUserResponse(User user){
        return UserResponse.builder()
                .firstName(user.getFirstName())

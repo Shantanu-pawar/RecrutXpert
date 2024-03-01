@@ -20,19 +20,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins =" https://recruiterexperttest.netlify.app")
+
 public class UserInfoController {
-    @Autowired
-    private UserInfoService service;
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private UserInfoRepository repository;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private BCryptPasswordEncoder encoder;
+    @Autowired private UserInfoService service;
+    @Autowired BCryptPasswordEncoder passwordEncoder;
+    @Autowired private JwtService jwtService;
+    @Autowired private UserInfoRepository repository;
+    @Autowired private AuthenticationManager authenticationManager;
+    @Autowired private BCryptPasswordEncoder encoder;
 
     @PostMapping("/addNewUser")
     public ResponseEntity<?> addNewUser(@RequestBody UserInfoDto dto) {

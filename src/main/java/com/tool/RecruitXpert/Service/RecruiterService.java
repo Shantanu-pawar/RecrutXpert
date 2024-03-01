@@ -61,16 +61,7 @@ public class RecruiterService {
         return "signup successfully";
     }
 
-    // add recruiter
-    public String addRecruiter(AddRecruiterDto dto) throws Exception {
 
-        // case this email already present - make @Unique in entity
-        Recruiter recruiter = new Recruiter(dto.getFirstname(), dto.getLastname(),
-                dto.getEmail(), dto.getPassword(), dto.getJobRole());
-
-        repository.save(recruiter);
-        return "Recruiter Added Successfully";
-    }
 
     // update itself
     public String updateRecruiter(UpdateRecruiterDto dto) throws Exception {
@@ -91,7 +82,8 @@ public class RecruiterService {
     // delete recruiter by id
     public String deleteById(int id) throws Exception {
         Optional<Recruiter> optional = repository.findById(id);
-        if (!optional.isPresent()) throw new Exception("Delete correct recruiter, this id is not present");
+        if (!optional.isPresent()) throw new Exception("recruiter not exists");
+
         Recruiter recruiter = optional.get();
         repository.deleteById(recruiter.getId());
         return "Recruiter Deleted Successfully";
@@ -136,7 +128,7 @@ public class RecruiterService {
 
 
         Recruiter recruiter = op.get();
-        recruiter.setRecruiterStatus(status.getRecruiterStatus());
+        recruiter.setRecruiterStatus(status.getRecruiterStatus()); // setting the status here
         repository.save(recruiter);
 
         EmailDto dto = new EmailDto();
@@ -151,7 +143,7 @@ public class RecruiterService {
         return "Status updated successful";
     }
 
-    // getting the list who is approved
+
     public List<Recruiter> getApprovedList(){
         List<Recruiter> list = repository.findAll();
         List<Recruiter> ans = new ArrayList<>();

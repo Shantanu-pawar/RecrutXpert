@@ -34,7 +34,6 @@ public class UserService {
 
 
     public String signUp(SignUserDto dto) throws Exception{
-//        validation : check unique email
         boolean check = userRepository.existsByEmail(dto.getEmail());
         if(check) throw new RuntimeException("Email already present, Enter valid email");
 
@@ -49,24 +48,9 @@ public class UserService {
         userStore.setRoles(EntityRoles.USER.name());
         userInfoService.addUser(userStore);
 
-//        // email integration
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//
-//        String body="Hi Welcome to RecruitXpert \n"+" Let's start your job search";
-//        mailMessage.setSubject("RecruitXpert");
-//        mailMessage.setFrom("shivasaiparsha@gmail.com");
-//        mailMessage.setTo(user.getEmail());
-//        mailMessage.setText(body);
-//        mailSender.send(mailMessage);
-
         return "signup successfully";
     }
 
-    public UserResponse addUser(UserRequest userRequest) {
-        User user = UserTransformer.UserRequestToUser(userRequest);
-        User savedUser = userRepository.save(user);
-        return UserTransformer.UserToUserResponse(savedUser);
-    }
 
     public String deleteUser(int id) {
             Optional<User> optionalUser = userRepository.findById(id);
@@ -85,14 +69,7 @@ public class UserService {
            User user = new User();
            user.setStatus(updateUserStatus.getStatus());
            userRepository.save(user);
-           return "Status Updated Succesfully";
-    }
-
-    public String updateUser(UserRequest userRequest) {
-        User user = UserTransformer.UserRequestToUser(userRequest);
-        userRepository.save(user);
-        return "Updated Successfully !!";
-
+           return "Status Updated Successfully";
     }
 
     public List<User> getListForNullStatus() {
@@ -108,7 +85,7 @@ public class UserService {
 
     public String updateStatus(UpdateUserStatus update) {
         Optional<User> op = userRepository.findById(update.getId());
-        if(!op.isPresent()) throw new RuntimeException("please update correct recruiter");
+        if(!op.isPresent()) throw new RuntimeException("please update correct user");
 
         User user = op.get();
         user.setStatus(update.getStatus());

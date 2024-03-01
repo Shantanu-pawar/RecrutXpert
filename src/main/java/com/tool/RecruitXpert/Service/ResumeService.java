@@ -46,12 +46,13 @@ public class ResumeService {
 
 
         long sizeInKb=sizeInBytes/1024;
-        long sizeInMb = sizeInBytes /2048; // Converting bytes to megabyte
+//        long sizeInMb = sizeInBytes /2048; // Converting bytes to megabyte
+        long sizeInMb =sizeInKb /2048; // Converting bytes to megabyte
         long lowBound=50;
         long upperBound=1; // 1mb size
         if(sizeInKb<50) {
             log.error("resume size is less than  50kb log");
-            throw new Exception("uploaded Resume doc size"+ sizeInKb +"KB is lessthan required size"+ lowBound);
+            throw new Exception("uploaded Resume "+ file.getName()+"size "+ sizeInKb +" KB is lessthan required size "+ lowBound);
         }
 
 
@@ -112,7 +113,7 @@ public class ResumeService {
             throw new Exception("resume not found exception"); //if resume id not found throw exception
 
         resumeRepository.deleteById(resumeId);
-        return resumeId + " resume : " + resumeId + " deleted successfully";
+        return resumeId + " resume id :(" + resumeId + ") is deleted successfully";
     }
 
     //delete resumes of user by user id services

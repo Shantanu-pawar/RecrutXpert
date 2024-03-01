@@ -60,13 +60,22 @@ public class AdminService {
         return "Successfully Updated !";
     }
 
-    public String deleteAdmin(Long id) {
+    public String deleteAdmin(Long id) { //
         Optional<Admin> optionalAdmin = adminRepository.findById(id);
         if (!optionalAdmin.isPresent()) {
             throw new AdminNotFoundException("Admin not Found");
         }
         adminRepository.deleteById(id);
         return "Successfully Deleted";
+    }
+
+    public String deleteRecruiterById(int recruiterId) {
+        Optional<Recruiter> optionalRecruiter = recruiterRepository.findById(recruiterId);
+        if(!optionalRecruiter.isPresent())
+            return "Recruiter not found";
+
+        recruiterRepository.deleteById(recruiterId);
+        return "recruiter deleted successfully";
     }
 
     // update profile image
@@ -163,11 +172,6 @@ public class AdminService {
     public JobsApplication updateRole(long jobId) {
         Optional<JobsApplication> op = jobRepository.findById(jobId);
         return op.get();
-    }
-
-    public String deleteRecruiterById(int recruiterId) {
-        recruiterRepository.deleteById(recruiterId);
-        return "recruiter deleted successfully";
     }
 
 

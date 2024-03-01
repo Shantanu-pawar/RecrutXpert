@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-//    login to recruiter ?: case : if recruiter approved then only he can able to access the portal
-
 @RestController
 @RequestMapping("/recruiter")
 @Slf4j
+@CrossOrigin(origins =" https://recruiterexperttest.netlify.app")
 public class RecruiterController {
 
     @Autowired
@@ -36,18 +35,14 @@ public class RecruiterController {
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> addRecruiter(@RequestBody AddRecruiterDto dto) {
-        try {
-            String response = service.addRecruiter(dto);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
+    // _________________recruiter profile section________________________
 
-    @PutMapping("/update")
+/*
+    get all those below apis from admin section
+    my-profile/{recruiterId}
+
+    correct this it's going wrong somewhere
+    @PutMapping("/update-recruiter")
     public ResponseEntity<?> updateRecruiter(@RequestBody UpdateRecruiterDto dto) {
         try {
             String response = service.updateRecruiter(dto);
@@ -58,8 +53,13 @@ public class RecruiterController {
         }
     }
 
-    // just getting id from UI side
-    @DeleteMapping("/delete/{id}")
+    /uplaodImg
+
+    @GetMapping("/getrecruiterImg/{recruiterid}")
+
+*/
+
+    @DeleteMapping("/delete-recruiter/{id}")
     public ResponseEntity<?> addRecruiter(@PathVariable("id") int id) {
         try {
             String response = service.deleteById(id);
@@ -68,6 +68,8 @@ public class RecruiterController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+// _______________ recruiter dashboard apis' see and figure out these _____________________________
 
     @GetMapping("/dashboard/{id}")
     public ResponseEntity<?> recruiterDashboard(@PathVariable int id){
