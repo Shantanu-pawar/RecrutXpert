@@ -30,14 +30,15 @@ public class Admin {
     @Column(unique = true, nullable = false)
     String email;
 
-    String password;
-    String expectedCTC;
-
-    String adminJobRole; // this variable stores admins job role
-
     // we've to check if this is admin-role
     // then only we'll provide all the admin access
     String organization;
+
+    String password;
+
+    String expectedCTC;
+
+    String adminJobRole; // this variable stores admins job role
 
     String website;
 

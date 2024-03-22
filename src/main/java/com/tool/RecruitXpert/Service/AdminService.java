@@ -2,7 +2,7 @@ package com.tool.RecruitXpert.Service;
 
 
 import com.tool.RecruitXpert.DTO.AdminDTO.*;
-import com.tool.RecruitXpert.DTO.AdminDTO.ResponseDto.GetAdminUpdateProfile;
+import com.tool.RecruitXpert.DTO.AdminDTO.ResponseDto.UpdateProfileDto;
 import com.tool.RecruitXpert.DTO.RecruiterDto.JobAssignDto;
 import com.tool.RecruitXpert.DTO.RecruiterDto.responseDto.JobTitleList;
 import com.tool.RecruitXpert.Entities.Admin;
@@ -188,20 +188,14 @@ public class AdminService {
     }
 
 
-    public GetAdminUpdateProfile getAdminDetails(Long adminId) {
-
+    public UpdateProfileDto getAdminDetails(Long adminId) {
         Admin admin = adminRepository.findById(adminId).get();
-        GetAdminUpdateProfile profile = new GetAdminUpdateProfile();
-
-        profile.setUsername(admin.getFirstname());
-        profile.setExpectedCTC(admin.getExpectedCTC());
-        profile.setExpectedJobRole(admin.getExpectedCTC());
-        profile.setLocation(admin.getLocation());
-        profile.setAdminImg(admin.getAdminImg());
+        UpdateProfileDto profile = new UpdateProfileDto(admin.getFirstname(), admin.getLastname(),
+                admin.getAddress(), admin.getWebsite(), admin.getCompanyName(), admin.getAdminImg());
         return profile;
     }
 
-    public String uploadImage(ImageUploadAdmin dto) throws Exception{
+    public String uploadImage(ImageUpload dto) throws Exception{
 
         MultipartFile imageFile = dto.getImageFile();
         long sizeInBytes = imageFile.getSize(); // Getting size of the uploaded file in bytes

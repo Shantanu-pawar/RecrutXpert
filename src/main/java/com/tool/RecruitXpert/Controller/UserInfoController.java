@@ -1,5 +1,6 @@
 package com.tool.RecruitXpert.Controller;
 
+import com.tool.RecruitXpert.DTO.RecruiterDto.ResponseJWT;
 import com.tool.RecruitXpert.Repository.UserInfoRepository;
 import com.tool.RecruitXpert.Security.Config.AuthRequest;
 import com.tool.RecruitXpert.Security.Jwt.JwtService;
@@ -58,6 +59,9 @@ public class UserInfoController {
 
         UserInfo user = repository.findByEmail(authRequest.getEmail()).get();
 
+        String email_id = user.getEmail();
+        ResponseJWT res = new ResponseJWT();
+
         // case : only admin can unblock the account status once account block
 
 //        if (authenticate(authRequest)) {
@@ -65,26 +69,29 @@ public class UserInfoController {
 //            user.setAccountBlock(false);
 //            repository.save(user);
         if (authenticate(authRequest) && !user.isAccountBlock()) {
-            return new ResponseEntity<>(jwtService.generateToken(authRequest.getEmail()), HttpStatus.OK);
+            String jwtToken=jwtService.generateToken(authRequest.getEmail());
+            res.setJwt_token(jwtToken);
+            res.setEmail_id(email_id);
+            return new ResponseEntity<>(res,HttpStatus.OK);
         }
 
             if (user.isAccountBlock()) {
-            String res =  "Oops! you're account is blocked! reach-out to Admin or reset you're password";
-            return new ResponseEntity<>(res, HttpStatus.OK);
-        }
+            String resa =  "Oops! you're account is blocked! reach-out to Admin or reset you're password";
+            return new ResponseEntity<>(resa, HttpStatus.OK);
+            }
 
         if (user.getPasswordCount() == 1) {
             user.setAccountBlock(true);
             repository.save(user);
-            String res =  "Warning! you've only one chance to login now";
-            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+            String resa =  "Warning! you've only one chance to login now";
+            return new ResponseEntity<>(resa, HttpStatus.BAD_REQUEST);
         }
 
         else {
             user.setPasswordCount(user.getPasswordCount() + 1);
             repository.save(user);
-            String res = "invalid Credentials";
-            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+            String resa = "invalid Credentials";
+            return new ResponseEntity<>(resa, HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -31,11 +31,13 @@ public class Recruiter {
 
     String lastname;
 
-    @Column(unique = true, nullable = false)
     String organisation;
 
     @Column(unique = true, nullable = false)
     String email;
+    String address;
+    String website;
+    String companyName;
 
     String password;
 

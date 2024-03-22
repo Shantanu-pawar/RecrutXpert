@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data @AllArgsConstructor @NoArgsConstructor
-public class ImageUploadAdmin {
+public class ImageUpload {
     private long adminId;
     private MultipartFile imageFile;
 }

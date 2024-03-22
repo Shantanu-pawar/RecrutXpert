@@ -1,10 +1,9 @@
 package com.tool.RecruitXpert.Controller;
 
-import com.tool.RecruitXpert.DTO.AdminDTO.UpdateRecruiterStatus;
+import com.tool.RecruitXpert.DTO.AdminDTO.ImageUpload;
+import com.tool.RecruitXpert.DTO.AdminDTO.ResponseDto.UpdateProfileDto;
 import com.tool.RecruitXpert.DTO.RecruiterDto.*;
 
-import com.tool.RecruitXpert.Entities.JobsApplication;
-import com.tool.RecruitXpert.Entities.Recruiter;
 import com.tool.RecruitXpert.Service.RecruiterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +36,24 @@ public class RecruiterController {
 
     // _________________recruiter profile section________________________
 
-/*
-    get all those below apis from admin section
-    my-profile/{recruiterId}
 
-    correct this it's going wrong somewhere
+    @GetMapping("my-profile/{recruiterId}")
+    public ResponseEntity<?> getRecruiterDetails(@PathVariable int recruiterId) {
+        UpdateProfileDto message = service.getRecruiterDetails(recruiterId);
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+
+    // here' i'll get the adminId from your UI side.
+    @PostMapping("/uploadImage")
+    public ResponseEntity<?> uploadImage(@RequestBody ImageUpload dto) {
+        try {
+            String message = service.uploadImage(dto);
+            return ResponseEntity.status(HttpStatus.OK).body(message);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PutMapping("/update-recruiter")
     public ResponseEntity<?> updateRecruiter(@RequestBody UpdateRecruiterDto dto) {
         try {
@@ -53,11 +65,23 @@ public class RecruiterController {
         }
     }
 
-    /uplaodImg
+//    @GetMapping("/getRecruiterImg/{recruiterId}")
+//    public ResponseEntity<?> getImg(@PathVariable long recruiterId){
+//        try {
+//            byte[] file = service.getImg(adminId);
+//            return new ResponseEntity<>(file, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+//        }
+//    }
+//
+//    // delete admin by id
+//    @DeleteMapping("/delete-admin/{id}")
+//    public ResponseEntity<?> deleteAdmin(@PathVariable Long id) {
+//        String message = service.deleteAdmin(id);
+//        return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
+//    }
 
-    @GetMapping("/getrecruiterImg/{recruiterid}")
-
-*/
 
     @DeleteMapping("/delete-recruiter/{id}")
     public ResponseEntity<?> addRecruiter(@PathVariable("id") int id) {

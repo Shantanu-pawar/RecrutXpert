@@ -16,5 +16,4 @@ public class RecruitXpertApplication {
 	public ModelMapper modelMapper(){
 		return new ModelMapper();
 	}
-
 }

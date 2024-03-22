@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAdminUpdateProfile {
+public class UpdateProfileDto {
 
-    String username;
-    String expectedCTC;
-    String expectedJobRole;
-    String location;
-
+    String firstname;
+    String lastname;
+    String address;
+    String website;
+    String companyName;
     byte[] adminImg;
-
 }
+

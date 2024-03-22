@@ -1,10 +1,11 @@
 package com.tool.RecruitXpert.Controller;
 
 import com.tool.RecruitXpert.DTO.AdminDTO.*;
-import com.tool.RecruitXpert.DTO.AdminDTO.ResponseDto.GetAdminUpdateProfile;
+import com.tool.RecruitXpert.DTO.AdminDTO.ResponseDto.UpdateProfileDto;
 import com.tool.RecruitXpert.DTO.JobDTO.JobCreationDTO;
 import com.tool.RecruitXpert.DTO.JobDTO.UpdateJobDto;
 import com.tool.RecruitXpert.DTO.RecruiterDto.JobAssignDto;
+import com.tool.RecruitXpert.DTO.RecruiterDto.RecruiterRolesUpdate;
 import com.tool.RecruitXpert.DTO.RecruiterDto.responseDto.AssignRecruiterResponse;
 import com.tool.RecruitXpert.DTO.RecruiterDto.responseDto.JobTitleList;
 import com.tool.RecruitXpert.Entities.JobsApplication;
@@ -55,13 +56,13 @@ public class AdminController {
     // whenever we hit this api so we get all the details of admin that we wanted to update
     @GetMapping("my-profile/{adminId}")
     public ResponseEntity<?> getAdminDetails(@PathVariable Long adminId) {
-        GetAdminUpdateProfile message = adminService.getAdminDetails(adminId);
+        UpdateProfileDto message = adminService.getAdminDetails(adminId);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    // here' i'll get the adminId from your UI side. a
+    // here' i'll get the adminId from your UI side.
     @PostMapping("/uploadImage")
-    public ResponseEntity<?> uploadImage(@RequestBody ImageUploadAdmin dto) {
+    public ResponseEntity<?> uploadImage(@RequestBody ImageUpload dto) {
         try {
             String message = adminService.uploadImage(dto);
             return ResponseEntity.status(HttpStatus.OK).body(message);
@@ -131,6 +132,17 @@ public class AdminController {
     public ResponseEntity<?> deleteRecruiterById(@PathVariable("id") int recruiterId) {
         String msg = adminService.deleteRecruiterById(recruiterId);
         return new ResponseEntity<>(msg, HttpStatus.OK);
+    }
+
+    //Changing recruiter approve reviewer commenter
+    @PutMapping("/update-recruiter-roles")
+    public ResponseEntity<?> updateRecruiterRoles(@RequestBody RecruiterRolesUpdate dto) {
+        try {
+            String response = recruiterService.updateRecruiterRoles(dto);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     // ________________ [button create/update job roles] job manage section________________________

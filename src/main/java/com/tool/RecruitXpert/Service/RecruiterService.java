@@ -1,5 +1,7 @@
 package com.tool.RecruitXpert.Service;
 
+import com.tool.RecruitXpert.DTO.AdminDTO.ImageUpload;
+import com.tool.RecruitXpert.DTO.AdminDTO.ResponseDto.UpdateProfileDto;
 import com.tool.RecruitXpert.DTO.AdminDTO.UpdateRecruiterStatus;
 import com.tool.RecruitXpert.DTO.RecruiterDto.*;
 
@@ -186,6 +188,30 @@ public class RecruiterService {
         }
         return list;
     }
+
+    //Updating recruiter role
+    public String updateRecruiterRoles(RecruiterRolesUpdate dto) {
+        Optional<Recruiter> op = repository.findById(dto.getRecruiter_id());
+        Recruiter recruiter = op.get();
+        recruiter.setRecruiterRole(dto.getRoles());
+        repository.save(recruiter);
+        return "Status Updated";
+    }
+
+    public UpdateProfileDto getRecruiterDetails(int recruiterId) {
+
+        Recruiter recruiter = repository.findById(recruiterId).get();
+
+        UpdateProfileDto profile = new UpdateProfileDto(recruiter.getFirstname(), recruiter.getLastname(),
+                recruiter.getAddress(), recruiter.getWebsite(), recruiter.getCompanyName(), recruiter.getRecruiterImg());
+        return profile;
+    }
+
+    public String uploadImage(ImageUpload dto) {
+
+        return "successfully";
+    }
+
 
     // recruiter can change the status of user like [commenter | reviewer | all actions ]
 
