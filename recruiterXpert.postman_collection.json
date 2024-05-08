@@ -1,0 +1,754 @@
+{
+	"info": {
+		"_postman_id": "7fab50bd-34be-47f1-a9aa-75e9069c76b4",
+		"name": "recruiterXpert",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28267238"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "all admin register",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gdfgsdg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"rushikendra\",\r\n    \"lastname\" : \"bella\",\r\n    \"email\" : \"eimasdflUique@gmail.com\",\r\n    \"password\" : \"password\",\r\n    \"address\" : \"sdfsf\",\r\n    \"location\" : \"maharashtra\",\r\n    \"website\" : \"ww.sx sf\",\r\n    \"adminImg\" : \"sdfsd\",\r\n    \"companyName\" : \"Marcos techsoft\",\r\n    \"role\" : \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/admin/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"admin",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1. get null status list of recruiter",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gdfgsdg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/admin/recruiter/listOfRecruitersByStatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"admin",
+								"recruiter",
+								"listOfRecruitersByStatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1. register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"121@gmail.com\",\r\n    \"organization\":\"121\",\r\n    \"password\": \"121\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/recruiter/sign-up",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"recruiter",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1. register Copy",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"121@gmail.com\",\r\n    \"organization\":\"121\",\r\n    \"password\": \"121\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/recruiter/sign-up",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"recruiter",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "image",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "adminId",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "imageFile",
+									"type": "file",
+									"src": "postman-cloud:///1eed7c8c-f67e-4e30-adb2-52428bb32cce"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:11000/admin/uploadImage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"admin",
+								"uploadImage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/manage - shows approved req list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gdfgsdg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/admin/manage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"admin",
+								"manage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/approved",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "gdfgsdg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 6,\r\n    \"recruiterStatus\" : \"DISAPPROVED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/admin/approve",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"admin",
+								"approve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin/update",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"adminId\" : 1,\r\n\"username\" : \"adf\",\r\n\"expectedCTC\" : \"adf\",\r\n\"expectedJobRole\" : \"adf\",\r\n\"location\" : \"adf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/admin/my-profile/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"admin",
+								"my-profile",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getJobList",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/admin/getJobList",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"admin",
+								"getJobList"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "recruiter",
+			"item": [
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : 1,\r\n\"firstname\" : \"spring module\",\r\n\"lastname\" : \"datuaul\",\r\n\"email\" : \"dsf@gmail.com\",\r\n\"password\" : \"datuaul\",\r\n\"recruiterImg\" : \"datuaul\",\r\n\"jobRole\"  : \"datuaul\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/recruiter/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"recruiter",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup - add recruiter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"user@gmail.com\",\r\n        \"organisationName\" : \"admin1 InfraTech\",\r\n    \"password\" : \"admin1\"  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/user/sign-up",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"user",
+								"sign-up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/recruiter/delete/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"recruiter",
+								"delete",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11000/recruiter/delete/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"recruiter",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ResumeEntity",
+			"item": [
+				{
+					"name": "upload resume",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1eec96c4-9c59-4300-a82a-ce63ad917867"
+								},
+								{
+									"key": "userid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:11000/resume/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"resume",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get resume",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1eec8563-edc9-4450-8348-c0ba288cbf1f"
+								},
+								{
+									"key": "userid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:11000/resume/viewResumes/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"resume",
+								"viewResumes",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all resumes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "postman-cloud:///1eec8563-edc9-4450-8348-c0ba288cbf1f"
+								},
+								{
+									"key": "userid",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:11000/resume/viewAllResume/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11000",
+							"path": [
+								"resume",
+								"viewAllResume",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJzaGFudGFudSIsImlhdCI6MTcwNzkzNTcyMiwiZXhwIjoxNzA4MDIyMTIyfQ.tvnM_94LcvmBY2bVbBtzah8XMr2oqjwQzXAtGkEmhFQivqB-pg4OgOeNGQxqrf30",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"user1\",\r\n    \"password\": \"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:11000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "unblock status",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaGFudGFudSIsImlhdCI6MTcwODQ1MTc0MCwiZXhwIjoxNzA4NDUzNTQwfQ.tKn2e1GcyS44eMONyZLhkhZ4iX9ZgJuVeTH89LKe0qI",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"user1\",\r\n    \"password\" : \"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:11000/auth/account-unblocked-by-admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11000",
+					"path": [
+						"auth",
+						"account-unblocked-by-admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "email integration",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\" : 8,\r\n    \"recruiterStatus\" : \"APPROVED\"\r\n}\r\n\r\n\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:11000/admin/update-status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11000",
+					"path": [
+						"admin",
+						"update-status"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
